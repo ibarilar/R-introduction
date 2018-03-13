@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Ivan Barilar" />
+
+<meta name="date" content="2018-03-13" />
+
+<title>Introduction to R</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Introduction to R</h1>
+<h4 class="author"><em>Ivan Barilar</em></h4>
+<h4 class="date"><em>2018-03-13</em></h4>
+
+
+
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>R is a open source software. It is a programming language and environment which is well-suited for statistical analyses. It can be downloaded from <a href="http://www.R-project.org">R-project</a>. Several GUIs and editors are available for R. We will use the development environment RStudio (free software, available at <a href="https://www.rstudio.com/">RStudio</a>). Both R and RStudio are available for Linux, Windows and MAC OS.</p>
+<p>Here are a few simple and easy online available tutorials: <a href="http://cran.r-project.org/doc/contrib/Paradis-rdebuts_en.pdf">Paradis</a> <a href="http://cran.r-project.org/doc/contrib/Torfs+Brauer-Short-R-Intro.pdf">Short-Intro</a> <a href="https://www.statmethods.net/index.html">Quick-R</a></p>
+<p>In Rstudio, we can either use the normal command line input for R or write scripts in the editor and run these in R. We will focus on the command line input. Some important basic commands are:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">q</span>()                     <span class="co"># Quits R (important if you use R without a GUI)</span>
+?command_name           <span class="co"># Calls up the manual for a command (try ?q())</span>
+<span class="kw">getwd</span>()                 <span class="co"># Shows the home directory</span>
+<span class="kw">setwd</span>(<span class="st">&quot;directory_name&quot;</span>) <span class="co"># Sets the home directory</span></code></pre></div>
+<p>The home directory can also be set in Rstudio by clicking on <strong>Session → Set working directory → Choose directory</strong>. The home directory is important since it is the directory where all output of R will be written to. Note that everything written after an <strong>#</strong> is not evaluated by R - we will use this for commenting</p>
+</div>
+<div id="objects-values-and-classes" class="section level2">
+<h2>Objects, values and classes</h2>
+<p>To make the best of the R language, you’ll need a strong understanding of the basic data types and data structures and how to operate on those.</p>
+<p>This is the most important step in understanding and successfully using R because these are the objects you will manipulate on a day-to-day basis in R. Dealing with object conversions is one of the most common sources of frustration for beginners (and advanced users).</p>
+<pre><code>To understand computations in R, two slogans are helpful:
+
+    Everything that exists is an object.
+    Everything that happens is a function call.
+
+John Chambers</code></pre>
+<p>When using R, your data, functions, results etc. are stored in the active memory of the PC in the form of <strong>objects</strong> of different <strong>classes</strong> to which you assign <strong>names</strong>.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Object</th>
+<th>Class</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>vector</td>
+<td>numeric, integer, character, complex or logical</td>
+</tr>
+<tr class="even">
+<td>factor</td>
+<td>numeric, integer, character</td>
+</tr>
+<tr class="odd">
+<td>array</td>
+<td>numeric, integer, character, complex or logical</td>
+</tr>
+<tr class="even">
+<td>matrix</td>
+<td>numeric, integer, character, complex or logical</td>
+</tr>
+<tr class="odd">
+<td>data frame</td>
+<td>numeric, integer, character, complex or logical</td>
+</tr>
+<tr class="even">
+<td>list</td>
+<td>numeric, character, complex, logical, function, expression…</td>
+</tr>
+</tbody>
+</table>
+<p>First let us focus on <strong>numerical objects</strong>, also called <strong>double</strong>. To create <strong>numerical objects</strong> we need to write our result to a <strong>variable</strong>. A <strong>variable</strong> is an <strong>object</strong> to which we have given a <strong>name</strong> and assigned a <strong>value</strong>. Here’s an example:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="dv">1</span>
+y &lt;-<span class="st"> </span><span class="dv">2</span>
+z &lt;-<span class="st"> </span><span class="dv">10</span>
+Peter &lt;-<span class="st"> </span>x <span class="op">+</span><span class="st"> </span>y
+Bernard &lt;-<span class="st"> </span>y <span class="op">-</span><span class="st"> </span>x
+Rabbit &lt;-<span class="st"> </span>z <span class="op">*</span><span class="st"> </span>Peter</code></pre></div>
+<p>Now we can display the <strong>values</strong> of these variables simply by typing their <strong>name</strong>.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>x</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>y</td>
+<td>2</td>
+</tr>
+<tr class="odd">
+<td>z</td>
+<td>10</td>
+</tr>
+<tr class="even">
+<td>Peter</td>
+<td>3</td>
+</tr>
+<tr class="odd">
+<td>Bernard</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>Rabbit</td>
+<td>30</td>
+</tr>
+</tbody>
+</table>
+<p>To see the which class type our variables are:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">typeof</span>(x)</code></pre></div>
+</div>
+<div id="r-as-a-pocket-calculator-first-steps" class="section level2">
+<h2>R as a pocket calculator, first steps</h2>
+<p>The user can do a lot of things with these <strong>objects</strong>, like basic arithmetical calculations <span class="math inline">\(+, −, ∗\)</span> and <span class="math inline">\(/\)</span>.</p>
+<p><strong>Exercise: </strong> Do basic arithmetical calculations for any combination of <strong>x</strong>, <strong>y</strong> and <strong>z</strong>. Can you use one variable more than once? Is the result of the operation saved somewhere? Why?</p>
+<p>Many more complicated functions are available in R, here is a small list:</p>
+<ul>
+<li><strong>^</strong>: power (so 2 to the power of 2 would be 2^2 in R)</li>
+<li><strong>sqrt(x)</strong>: square root of <em>x</em></li>
+<li><strong>log(x)</strong>, <strong>exp(x)</strong>: (natural) logarithm of <em>x</em>, exponential function of <em>x</em></li>
+<li><strong>sin(x)</strong>, <strong>cos(x)</strong>, <strong>tan(x)</strong>: trigonometric functions of <em>x</em></li>
+<li><strong>abs(x)</strong>: absolute value |<em>x</em>| of <em>x</em></li>
+</ul>
+<p><strong>Exercise: </strong> <strong>Sum</strong> the values of <strong>x</strong>, <strong>y</strong> and <strong>z</strong> into a variable <strong>space</strong>. Try doing it in more than one way, there is a hint in the previous sentence.</p>
+<p><strong>Exercise: </strong> Make a new variable <strong>n</strong>. Assign it a negative value and then add it to one of the existing variables. Now do the same with its absolute value.</p>
+</div>
+<div id="other-object-classes" class="section level2">
+<h2>Other object classes</h2>
+<p>So far, we have used one type of object classes, <strong>numeric</strong>. 4 other important object classes are <strong>character</strong>, <strong>logical</strong>, <strong>integer</strong> and <strong>function</strong>. The class <strong>character</strong> consists of objects that are strings of symbols (e.g. words but also something like <strong>A?7Fd</strong>). The class <strong>logical</strong> is reserved for the logical expressions <strong>TRUE</strong> and <strong>FALSE</strong>. Such objects are often useful in programming (more on that later). <strong>Integer</strong> is a class which only allows integer-valued entries. <strong>NA</strong> is the class reserved for missing values. <strong>NA</strong> is not really an object class, but gets it class information from what object class the value is missing from. If no such information is available, <strong>NA</strong> is treated as logical.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">word &lt;-<span class="st"> &quot;hello&quot;</span>
+word2 &lt;-<span class="st"> &quot;A?7Fd&quot;</span>
+mv &lt;-<span class="st"> </span><span class="ot">NA</span>
+Bool &lt;-<span class="st"> </span><span class="ot">TRUE</span></code></pre></div>
+<p>To display a <strong>class</strong> of an object you can use a function like <strong>mode()</strong>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mode</span>(x)
+<span class="kw">mode</span>(sin)
+<span class="kw">mode</span>(word)
+<span class="kw">mode</span>(Peter)</code></pre></div>
+<p>We shall talk about <strong>functions</strong> a bit later.</p>
+<p>Note that R (temporarily) saves all objects defined in the so called workspace. The workspace can be saved (permanently) after a session and reloaded to use objects defined in an earlier session. The workspace can be saved in Rstudio using the menu in the upper right corner. If you end R, you will always be asked whether the workspace should be saved (it is saved in the working directory). In Rstudio, you can also easily delete all defined objects by clicking on <strong>Clear all</strong> in the upper right quarter.</p>
+</div>
+<div id="vectors-matrices-lists-and-data-frames" class="section level2">
+<h2>Vectors, matrices, lists and data frames</h2>
+<p>Often, we will not only deal with single objects, but with several objects at once. For example, SNP data of one individual consists of all nucleotides at each SNP position, hence consists of a <strong>vector</strong> (an ordered set) of entries.</p>
+<div id="vectors" class="section level3">
+<h3>Vectors</h3>
+<p>For example, the vector (1,2,3,4) can be defined by</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">v1 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>)</code></pre></div>
+<p>Note that a vector consists of objects of the same class and that by using <strong>c()</strong> on vectors, you can concatenate vectors. Try using the command <strong>str</strong> instead of <strong>mode</strong> to get further information about an object.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">v2 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;a&quot;</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)
+<span class="kw">mode</span>(v2)
+<span class="kw">str</span>(v2)</code></pre></div>
+<p>Here we saw what happens when we mix different classes in a vector. R will create a resulting vector that is the least common denominator. The coercion will move towards the one that’s easiest to coerce to.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">d &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="ot">TRUE</span>)
+e &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;a&quot;</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="ot">TRUE</span>)</code></pre></div>
+<p>With some imagination you can see why that has a potential of inducing many a headache. Luckily it is easy in R to change the class of a vector with a function call <strong>as.&lt;class.name&gt;()</strong>, meaning <strong>as.numeric(d)</strong> to change vector d from the previous example into a numeric one.</p>
+<p><strong>Exercise: </strong> Try converting some of your vectors to other classes and try to comprehend the results.</p>
+<p>Vectors can also be made by concatenating other vectors.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">v3 &lt;-<span class="st"> </span><span class="kw">c</span>(v1, v1, v1)
+v3</code></pre></div>
+<p>Instead of typing all entries by hand, vectors consisting of copies of the same element or of equidistant values can be defined by the following commands:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rep</span>(<span class="dv">4</span>, <span class="dv">6</span>)       <span class="co"># The first argument gives the object to repeat, the second argument the number of repetitions</span>
+<span class="kw">seq</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="fl">0.5</span>)  <span class="co"># Consists of values with distance 0.5 from 2 to 4 (including 2 and 4)</span>
+<span class="dv">1</span><span class="op">:</span><span class="dv">7</span>             <span class="co"># A vector consisting of 1,...,7</span>
+<span class="kw">seq</span>(<span class="dt">along =</span> v2) <span class="co"># Vector (1,...,length(v2))</span></code></pre></div>
+<p>We can use various <strong>functions</strong> to examine our <strong>vectors</strong>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">length</span>(v2)
+<span class="kw">class</span>(v2)
+<span class="kw">mode</span>(v2)
+<span class="kw">summary</span>(v2)
+<span class="kw">str</span>(v2)
+<span class="kw">mean</span>(v2)
+<span class="kw">var</span>(v2)
+.
+.
+.</code></pre></div>
+</div>
+<div id="working-with-vectors" class="section level3">
+<h3>Working with vectors</h3>
+<p>Let v1 be a vector with numerical entries, for example</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">v1 &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">5</span>
+<span class="kw">mode</span>(v1)
+v1 <span class="op">+</span><span class="st"> </span><span class="dv">5</span></code></pre></div>
+<p>A certain entry, say the <strong>i</strong>-th entry of v1 can be accessed by <strong>v1[i]</strong>. Note that you can also access a sub vector by specifying all of the entries you want to access.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">v1[<span class="dv">1</span>]        <span class="co"># The first entry of the vector</span>
+v1[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span><span class="dv">5</span>    <span class="co"># The first entry of the vector increased by 5</span>
+v1[<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)]  <span class="co"># The first two entries of the vector</span>
+v1[<span class="op">-</span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)] <span class="co"># All entries of the vector apart from the first two</span>
+v1[v1<span class="op">&lt;</span><span class="dv">3</span>]     <span class="co"># All entries smaller than 3</span></code></pre></div>
+<p><strong>Exercise: </strong> Make a vector of all numbers between 3 and 21. Multiply the second element of the vector by 3. Multiply the whole vector by 4. Multiply all but the last element of the vector by 5.</p>
+<p><strong>Exercise: </strong> Construct a vector of length 300 consisting of 100 copies of numbers 1,2,3.</p>
+<p><strong>Exercise: </strong> What kind of an object is v1&lt;3?</p>
+<p>In the last example, we introduced a vector consisting of objects of class logical. Let’s look at it: <strong>v1&lt;3</strong></p>
+<p>Such operations (a vector, a comparison operator and a object the vector is compared to) produces a vector giving the result of the comparison for each vector entry. Here’s a list of logical comparison operators:</p>
+<ul>
+<li><strong>==</strong>, <strong>!=</strong>: equal, unequal</li>
+<li><strong>&gt;</strong>, <strong>&gt;=</strong>: greater, greater or equal</li>
+<li><strong>&lt;</strong>, <strong>&lt;=</strong>: smaller, smaller or equal</li>
+<li><strong>&amp;</strong>, <strong>|</strong>: and, or (to combine logical expressions, each expression has to be put into ())</li>
+<li><strong>!</strong>(logical condition): negation of a logical condition</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">logicv1 &lt;-<span class="st"> </span>(v1<span class="op">&gt;</span><span class="dv">1</span>) <span class="op">&amp;</span><span class="st"> </span>(v1<span class="op">&lt;</span><span class="dv">4</span>)
+v1[logicv1]</code></pre></div>
+<p>So far, accessing entries of a vector resulted in the output of the accessed entries, discarding the information at which position of the original vector the entries are placed. This information can be retrieved by <strong>which</strong>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">v4 &lt;-<span class="st"> </span>−<span class="dv">7</span><span class="op">:</span><span class="dv">3</span>   <span class="co"># Defines v4 as the vector (−7, −6, ..., 1, 2, 3). Note the blank!</span>
+<span class="kw">which</span>(v4<span class="op">&gt;</span><span class="dv">0</span>) <span class="co"># Gives the positions of all entries of v4 bigger than 0</span></code></pre></div>
+<p>Note that to get the position of a minimal or maximal entry of a numerical vector v1, you can use <strong>which.min(v1)</strong> and <strong>which.max(v1)</strong> (if there are several entries tied for minimum or maximum, the entry with lowest position is shown). To overwrite entries in a vector, you just have to assign a new value to the entry:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">v1[<span class="dv">1</span>] &lt;-<span class="st"> </span><span class="dv">100</span>
+v1[<span class="dv">1</span>]
+v1</code></pre></div>
+<p>Here’s a list of some useful functions for a numerical vector v:</p>
+<ul>
+<li><strong>max(v)</strong>, <strong>min(v)</strong>: Gives the maximal/minimal value of a vector</li>
+<li><strong>sum(v)</strong>: Sums the entries of v</li>
+<li><strong>mean(v)</strong>: arithmetic mean of v</li>
+<li><strong>sort(v)</strong>: sort entries of v in increasing order. To sort in decreasing order, add the second argument <strong>decreasing=TRUE</strong></li>
+</ul>
+<p>For a logical vector v, the following commands might be useful:</p>
+<ul>
+<li><strong>any(v)</strong>: Is at least one entry of v <strong>TRUE</strong>?</li>
+<li><strong>all(v)</strong>: Are all entries of v <strong>TRUE</strong>?</li>
+</ul>
+</div>
+<div id="matrices" class="section level3">
+<h3>Matrices</h3>
+<p>Another important structure in R is a <strong>matrix</strong>. A matrix is a rectangular scheme of <span class="math inline">\(n * m\)</span> values, where <span class="math inline">\(n\)</span> is the number of <strong>rows</strong> and <span class="math inline">\(m\)</span> is the number of <strong>columns</strong>. A matrix can be defined by listing all entries in a vector, specifying the number of rows and stating whether the entries are ordered by rows or columns. The <span class="math inline">\(n × n\)</span> identity matrix can be defined by <strong>diag(n)</strong>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">matrix1 &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>), <span class="dt">nrow =</span> <span class="dv">2</span>, <span class="dt">byrow =</span> <span class="ot">TRUE</span>) <span class="co"># Ordered by rows</span>
+matrix2 &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>), <span class="dt">nrow =</span> <span class="dv">2</span>,<span class="dt">byrow =</span> <span class="ot">FALSE</span>) <span class="co"># Ordered by columns</span>
+D &lt;-<span class="st"> </span><span class="kw">diag</span>(<span class="dv">2</span>)
+matrix3 &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>), <span class="dt">nrow =</span> <span class="dv">2</span>, <span class="dt">ncol =</span> <span class="dv">4</span>, 
+                  <span class="dt">byrow =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<p>Note that since the first argument of matrix is a vector, you can use the commands written down in the chapter about vectors to easily built matrices with specific patterns in their entries. To access an entry of a matrix, you have to specify its row and column. As in the case of vectors, you can also access several entries at once</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">matrix1[<span class="dv">1</span>,<span class="dv">2</span>] <span class="co"># Accesses the entry in the 1st row, 2nd column</span>
+matrix1[ ,<span class="dv">1</span>] <span class="co"># Accesses the first column</span>
+matrix1[<span class="dv">1</span>, ] <span class="co"># Accesses the first row</span></code></pre></div>
+<p>There are many operations available to manipulate matrices. The following list shows some important commands for matrices:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">v3 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>)       <span class="co"># Defines a 2-dimensional vector</span>
+<span class="kw">t</span>(matrix1)          <span class="co"># Transposes matrix1 (switches rows with columns)</span>
+matrix1 <span class="op">%∗%</span><span class="st"> </span>matrix2 <span class="co"># Multiplies matrix1 with matrix 2</span>
+matrix1 <span class="op">%∗%</span><span class="st"> </span>v3      <span class="co"># Multiplies matrix with vector</span>
+<span class="kw">eigen</span>(matrix1)      <span class="co"># Computes eigenvalues and eigenvectors</span>
+<span class="kw">solve</span>(matrix1)      <span class="co"># Inverts the matrix</span>
+<span class="kw">solve</span>(matrix1, v3)  <span class="co"># Solves the system of linear equation matrix1*x=v3</span>
+<span class="kw">cbind</span>(matrix1, v3)  <span class="co"># Adds v3 as a new column (works also adding matrices)</span>
+<span class="kw">rbind</span>(matrix1, v3)  <span class="co"># Adds v3 as a new row (works also adding matrices)</span></code></pre></div>
+<p><strong>Exercise: </strong> Make a 3x3 matrix (3 rows, 3 columns), where the first column contains only number 4.</p>
+<p><strong>Exercise: </strong> From the above matrix extract columns where the sum of numbers in the column is bigger then 10. Use the <strong>colSums()</strong> function.</p>
+</div>
+<div id="data-frames" class="section level3">
+<h3>Data frames</h3>
+<p>Normally, we will deal with data collected from different individuals. This data can be seen as a scheme with rows and columns (similar to a matrix), where the rows stand for the individuals and the columns stand for each measured variable or some information about experimental factors. Note here that in contrast to a matrix, the columns may have any object as entry (but the type of object is equal for all rows/individuals). This type of data structure is called a data frame in R. It can be defined by the command <strong>data.frame</strong> as follows:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data1 &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">height =</span> <span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">3</span>), <span class="dt">weight =</span> <span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">4</span>, <span class="dv">2</span>), 
+                    <span class="dt">treatment =</span> <span class="kw">c</span>(<span class="st">&quot;c&quot;</span>, <span class="st">&quot;a&quot;</span>, <span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>))
+<span class="kw">str</span>(data1) <span class="co"># Note that the third column is referred to as a factor</span></code></pre></div>
+<p>If we compare defining a data frame to defining a matrix, we see that we enter each column as a separate vector and we can name the columns (similar naming is possible for matrices and vectors). Non-numerical values are mostly experimental conditions in a data frame and will be treated as factors. To access entries, there are two possibilities: We can do as with matrices or directly address the columns.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data1[<span class="dv">1</span>, <span class="dv">2</span>]        <span class="co"># Accesses the entry in the 1st row, second column</span>
+data1<span class="op">$</span>weight[<span class="dv">1</span>]    <span class="co"># Does the same</span>
+data1<span class="op">$</span>weight       <span class="co"># The column weight</span>
+data1[[<span class="dv">1</span>]]         <span class="co"># The first column</span></code></pre></div>
+<p>The benefit of using the column names is that you don’t have to memorize the exact structure of the data frame, but just the column names (thus, use reasonable column names). For programming though, it’s often easier to address the columns by number and not by name. If you are about to work with one data frame a lot, you can use <strong>attach()</strong> to add the data frame to the search path of R. This means that R knows that if you type in a column name, it’s from said data frame. You can detach by using <strong>detach()</strong>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data1<span class="op">$</span>height
+height        <span class="co"># Doesn't work</span>
+<span class="kw">attach</span>(data1)
+height        <span class="co"># Works now</span>
+data1<span class="op">$</span>height
+<span class="kw">detach</span>(data1)</code></pre></div>
+<p>We know how to access different columns of a data frame. However, we will often be interested to work with a subset of data, for example only data from individuals/rows under a certain experimental condition (e.g., a certain factor level of an experimental factor). Such subsets of data can be accessed by <strong>subset()</strong>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">subset</span>(data1, treatment <span class="op">==</span><span class="st"> &quot;a&quot;</span>)                       <span class="co"># Chooses all rows with treatment a</span>
+data_sub &lt;-<span class="st"> </span><span class="kw">subset</span>(data1, treatment <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>)) <span class="co"># Chooses all rows with treatment a or b</span>
+<span class="kw">str</span>(data_sub)
+<span class="kw">table</span>(data_sub<span class="op">$</span>treatment)                             <span class="co"># Unused factor levels are kept by subset</span>
+data_sub2 &lt;-<span class="st"> </span><span class="kw">droplevels</span>(data_sub<span class="op">$</span>treatment)           <span class="co"># Kicks out unused factor levels</span>
+<span class="kw">table</span>(data_sub2)
+<span class="kw">subset</span>(data1, treatment <span class="op">==</span><span class="st"> &quot;a&quot;</span>, <span class="dt">select =</span> height)      <span class="co"># Shows the height values for all individuals with treatment a</span></code></pre></div>
+<p>As with matrices, <strong>rbind()</strong> and <strong>cbind()</strong> can be used to glue data sets together. A more flexible command is <strong>merge()</strong> (which we don’t cover here), to learn about it type <strong>?merge()</strong>. A similar, but more flexible class for such lists is <strong>list()</strong>. All defined objects are displayed in a list in the upper right corner in Rstudio.</p>
+<p><strong>Exercise: </strong> Make a data frame with 3 columns and 5 rows, make sure first column is sequence of numbers 1:5, second column is a character vector, and the third one is a logical vector. Now add a fourth column of numbers. Extract those rows where fourth column is bigger than 2. Add first to the fourth column.</p>
+</div>
+</div>
+<div id="missing-data" class="section level2">
+<h2>Missing data</h2>
+<p>As already mentioned, missing data should be coded as NA. One way to exclude missing data is to only keep data rows that are complete for all variables. This can be done by <strong>na.exclude</strong>. For vectors and data frames, it marks all missing values to be ignored for further computations. To just show the positions of NA, use <strong>is.na</strong>. is.na gives the same object format with logical values indicating whether there is a missing value <strong>TRUE</strong> or not <strong>FALSE</strong>. To check whether there is any missing data at all, type <strong>any(is.na())</strong></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">v_na &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="ot">NA</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="ot">NA</span>)
+data_na &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">b1 =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>, <span class="dt">b2 =</span> <span class="kw">c</span>(<span class="ot">NA</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="ot">NA</span>))
+data_na
+<span class="kw">is.na</span>(v_na)
+<span class="kw">any</span>(<span class="kw">is.na</span>(v_na))
+<span class="kw">is.na</span>(data_na)
+data_good &lt;-<span class="st"> </span><span class="kw">na.exclude</span>(data_na) <span class="co"># Throw out all rows with NA</span>
+data_good
+<span class="kw">str</span>(data_good)
+<span class="kw">mean</span>(<span class="kw">na.exclude</span>(v_na))           <span class="co"># Compute the mean of present values, no permanent change in v_n</span></code></pre></div>
+</div>
+<div id="input-and-output-of-data" class="section level2">
+<h2>Input and output of data</h2>
+<p>As already seen, data input is strenuous in R. Thus, we will mostly import data from other sources, for example tables from OpenOffice or Excel, text files including measuring data, output data from other programs etc.. We start first with a data set in format <strong>.txt</strong>, which we will create using the built-in editor in Rstudio. Open a new .txt-file by clicking on the button marked with <span class="math inline">\(+\)</span> in the upper left corner in the GUI and choosing a new text file. Type in:</p>
+<hr />
+<p>height;weight;experiment</p>
+<p>150;15;a</p>
+<p>120;11;b</p>
+<p>135;11;c</p>
+<hr />
+<p>Note here that we have a heading containing the column names and semicolons which separate different values (imagine the data coming from measuring the traits in rye plants grown under different experimental conditions). Save the file as <strong>data2.txt</strong> in your working directory. We will now import this data set as a data frame in R. This can be either done by clicking on <strong>Import Dataset</strong> in Rstudio in the upper right corner (and specify the header, the separation symbol etc.). The same can be done by using the command <strong>read.csv()</strong> with the right parameters (learn about it by reading the manual <strong>?read.csv()</strong>)</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data2 &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data2.txt&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;;&quot;</span>)</code></pre></div>
+<p>Note that the argument <strong>header</strong> has the default value <strong>TRUE</strong> meaning that the program reads in the first row of the text as the header containing column names (note also that <strong>read.csv()</strong> expects the decimal symbol). A similar command is <strong>read.table()</strong>, which just has different default values for the arguments. To save data and objects produced in R permanently, there are several possibilities. Text files can be produced by <strong>write.table()</strong>, which has the same arguments as <strong>read.table()</strong> (and the same default values). You only have to specify the output file. Here’s an example:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">write.table</span>(data1, <span class="st">&quot;data1.txt&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;;&quot;</span>) <span class="co"># Separation symbol ;</span></code></pre></div>
+<p>You can look at the output file in the built-in editor of Rstudio. Note that we don’t use <strong>write.csv()</strong> since it allows no control on the arguments (it’s made this way to enable problem-free export to Excel, so use it then).</p>
+<p>To save a R-object as a R-object, you can use the command <strong>save()</strong>. For example, we write out <span class="math inline">\(v1\)</span> and <span class="math inline">\(v2\)</span> in a binary file with <strong>save()</strong> by writing all objects to write out as arguments and specify the file to write in. The written file is a binary file so you can’t directly access it by editor, but have to load it to R with <strong>load()</strong>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">save</span>(v1, v2, <span class="dt">file =</span> <span class="st">&quot;vector&quot;</span>)
+v1 &lt;-<span class="st"> </span><span class="dv">0</span>                      <span class="co"># Change v1</span>
+v2 &lt;-<span class="st"> </span><span class="dv">0</span>                      <span class="co"># Change v2</span>
+<span class="kw">load</span>(<span class="st">&quot;vector&quot;</span>)               <span class="co"># Load the previous definitions of the vectors</span>
+v1
+v2</code></pre></div>
+<p>The workspace including all defined variables can be saved by <strong>save.image(“file_name”)</strong> and loaded by <strong>load(“file_name”)</strong>.</p>
+<p><strong>Exercise: </strong> Write data1 to a file <strong>data3.txt</strong> this time using tab <strong>\t</strong> as a separator. Open the file in a text editor to see the difference between it and <strong>data2.txt</strong>.</p>
+</div>
+<div id="functions" class="section level2">
+<h2>Functions</h2>
+<p>Remember what we said at the beginning. To understand computations in R, two slogans are helpful:</p>
+<ul>
+<li>Everything that exists is an object.</li>
+<li>Everything that happens is a function call.</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">v2 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;a&quot;</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)
+<span class="kw">str</span>(v2)</code></pre></div>
+<p>So if we go back to this example from before we now know that <span class="math inline">\(v2\)</span> is an object. <strong>str()</strong> on the other hand is a function that provides us with some information on <span class="math inline">\(v2\)</span>.</p>
+<p>How to make a function?</p>
+<p>All R functions have three parts:</p>
+<ul>
+<li>the <strong>body</strong>, the code inside the function.</li>
+<li>the <strong>formals</strong>, the list of arguments which controls how you can call the function.</li>
+<li>the <strong>environment</strong>, the map of the location of the functions variables.</li>
+</ul>
+<p>Here we will focus on the first two components. To define a new function, we have to specify the arguments of the function, a function name and the function itself. For example, we can define the function that calculates <span class="math inline">\(2*b + 2\)</span> by:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">a &lt;-<span class="st"> </span><span class="cf">function</span>(b) {
+  <span class="dv">2</span> <span class="op">*</span><span class="st"> </span>b <span class="op">+</span><span class="st"> </span><span class="dv">2</span>
+  }
+<span class="kw">formals</span>(a)
+<span class="kw">body</span>(a)
+<span class="kw">mode</span>(a) <span class="co"># shows the mode of a</span>
+<span class="kw">a</span>(<span class="dv">4</span>)    <span class="co"># computes the value of the function a for an input number 4</span></code></pre></div>
+<p><strong>Exercise: </strong> Plot a function <span class="math inline">\(x*x\)</span> or <span class="math inline">\(x\)</span><sup>2</sup>(both will of course give the same result) for <span class="math inline">\(x\)</span> from -100 to 100.</p>
+<p>A function may have more than one argument, and the arguments don’t necessarily have to be objects of the class numeric. For example R can also plot mathematical functions by using the function <strong>curve()</strong>. <strong>curve()</strong> has many possible arguments. Type <strong>?curve()</strong> to get an overview. Note that some arguments have a predefined <strong>default value</strong>, meaning that if you don’t specify a value for such an argument, the default value is used. For starters, we will focus on the arguments:</p>
+<ul>
+<li><strong>expr</strong>: The function which to plot</li>
+<li><strong>from</strong>: Lower bound of the <span class="math inline">\(x\)</span>-coordinate of the plot</li>
+<li><strong>to</strong>: Upper bound of the <span class="math inline">\(x\)</span>-coordinate of the plot</li>
+<li><strong>xlab</strong>: Label of the <span class="math inline">\(x\)</span>-axis, can either be written in text (“text”) or as a mathematical expression (using <strong>expression()</strong>)</li>
+<li><strong>ylab</strong>: Label of the <span class="math inline">\(y\)</span>-axis, , can either be written in text (“text”) or as a mathematical expression (using <strong>expression()</strong>)</li>
+</ul>
+<p>Here’s the command to let R plot the function <span class="math inline">\(sin2x\)</span> from <span class="math inline">\(−2π\)</span> to <span class="math inline">\(2π\)</span> (with labelled axes).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sin2x &lt;-<span class="st"> </span><span class="cf">function</span>(x) {
+  <span class="kw">sin</span>(<span class="dv">2</span><span class="op">**</span>x)
+  }
+<span class="kw">curve</span>(sin2x, <span class="dt">from =</span> <span class="op">-</span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>pi, <span class="dt">to =</span> <span class="dv">2</span> <span class="op">*</span><span class="st"> </span>pi, <span class="dt">xlab =</span> <span class="st">&quot;x␣&quot;</span>,
+      <span class="dt">ylab =</span> <span class="kw">expression</span>(<span class="kw">sin</span>(<span class="dv">2</span> <span class="op">*</span><span class="st"> </span>x)))</code></pre></div>
+<p>Note that R doesn’t keep track of objects defined in a function unless you force it to return their values. By default, just the last evaluated expression is returned (as seen). Using <strong>return</strong> at the end of your function, you can specify the return values. Here’s an example:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">testf &lt;-<span class="st"> </span><span class="cf">function</span>(x) {
+  a &lt;-<span class="st"> </span><span class="dv">1</span>
+  c &lt;-<span class="st"> </span><span class="dv">2</span>
+  <span class="kw">return</span>(<span class="kw">c</span>(a, c))
+  }
+<span class="kw">testf</span>(<span class="dv">1</span>)</code></pre></div>
+</div>
+<div id="plotting-in-r" class="section level2">
+<h2>Plotting in R</h2>
+<p>One of the main strengths of R comes from its strong graphical possibilities. Here we will just learn the basics of the plotting functions while it is encouraged to look into various online plotting tutorials if you want to learn more:</p>
+<p><a href="https://www.harding.edu/fmccown/r/">basic plotting</a></p>
+<p><a href="https://www.r-graph-gallery.com/">Mother of graphs!</a></p>
+<p>Lets plot:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(iris)                               <span class="co">#loading a plant dataset already existing in R</span>
+<span class="kw">class</span>(iris)                              <span class="co">#lets see what type of data this is</span>
+<span class="kw">summary</span>(iris)                            <span class="co">#summary of the dataset</span>
+<span class="kw">plot</span>(iris<span class="op">$</span>Sepal.Length,iris<span class="op">$</span>Sepal.Width) <span class="co">#plots the length and width of the plants</span>
+?plot                                    <span class="co">#shows us all the options we can use with the plot function</span>
+<span class="kw">plot</span>(iris<span class="op">$</span>Sepal.Length, iris<span class="op">$</span>Petal.Length, <span class="dt">col=</span>iris<span class="op">$</span>Species,<span class="dt">pch=</span><span class="dv">19</span>)
+<span class="kw">plot</span>(iris<span class="op">$</span>Petal.Length, iris<span class="op">$</span>Petal.Width, <span class="dt">pch=</span><span class="dv">21</span>, <span class="dt">bg=</span><span class="kw">c</span>(<span class="st">&quot;red&quot;</span>,<span class="st">&quot;green3&quot;</span>,<span class="st">&quot;blue&quot;</span>)[<span class="kw">unclass</span>(iris<span class="op">$</span>Species)], <span class="dt">main=</span><span class="st">&quot;Iris_Data&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;Petal_length&quot;</span>,<span class="dt">ylab=</span><span class="st">&quot;Petal_Width&quot;</span>)
+<span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">1</span>))
+<span class="kw">plot</span>(iris<span class="op">$</span>Sepal.Length, iris<span class="op">$</span>Petal.Length, <span class="dt">col=</span>iris<span class="op">$</span>Species,<span class="dt">pch=</span><span class="dv">19</span>)
+<span class="kw">plot</span>(iris<span class="op">$</span>Sepal.Length, iris<span class="op">$</span>Petal.Width, <span class="dt">col=</span>iris<span class="op">$</span>Species,<span class="dt">pch=</span><span class="dv">19</span>)
+<span class="kw">plot</span>(iris<span class="op">$</span>Sepal.Width, iris<span class="op">$</span>Petal.Length, <span class="dt">col=</span>iris<span class="op">$</span>Species,<span class="dt">pch=</span><span class="dv">19</span>)
+<span class="kw">par</span>(<span class="dt">mfrow=</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</code></pre></div>
+<p><strong>Exercise: </strong> Plot sepal length and sepal width, use different symbols to represent the sample.</p>
+<p>There are many different plotting functions in R, one of them is <strong>hist()</strong> that produces a histogram.</p>
+<p><strong>Exercise: </strong> Plot a histogram of petal length for each species separately, remember <strong>subset()</strong>. Plot all three in one image in one row.</p>
+<p>You can also plot linear models and if brave delve deep into regression.To fit a linear model to a data set, we just have to specify the linear model we want to use and then plot the data using the plot() function.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>)
+y &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">1.6</span>,<span class="dv">4</span>,<span class="fl">6.5</span>,<span class="fl">7.5</span>,<span class="dv">10</span>)
+<span class="kw">plot</span>(x,y)</code></pre></div>
+<p>Here, you can again add graphical arguments to plot. Now we want to add a regression line. We define the regression of y on x as:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">reg &lt;-<span class="st"> </span><span class="kw">lm</span>(y<span class="op">~</span>x)
+reg
+<span class="kw">str</span>(reg)
+<span class="kw">abline</span>(reg)     <span class="co">#draws the regression line into the plot</span></code></pre></div>
+<p>We could spend hours on talking about how to modify our plots and graphs in R. The best way in the end is to read the help files for specific functions, online tutorials and browse for code you need. Whatever you want done was already done by someone, don’t forget that.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pairs</span>(iris[<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>], <span class="dt">main =</span> <span class="st">&quot;Edgar Anderson's Iris Data&quot;</span>, <span class="dt">pch =</span> <span class="dv">21</span>, <span class="dt">bg =</span> <span class="kw">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;green3&quot;</span>, <span class="st">&quot;blue&quot;</span>)[<span class="kw">unclass</span>(iris<span class="op">$</span>Species)])</code></pre></div>
+<p>Main strength and purpose of R lies in statistics.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))
+<span class="kw">hist</span>(iris<span class="op">$</span>Sepal.Length[iris<span class="op">$</span>Species<span class="op">==</span><span class="st">&quot;setosa&quot;</span>])
+<span class="kw">hist</span>(iris<span class="op">$</span>Sepal.Length[iris<span class="op">$</span>Species<span class="op">==</span><span class="st">&quot;virginica&quot;</span>])
+<span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))
+<span class="kw">summary</span>(iris<span class="op">$</span>Sepal.Length[iris<span class="op">$</span>Species<span class="op">==</span><span class="st">&quot;virginica&quot;</span>])
+<span class="kw">summary</span>(iris<span class="op">$</span>Sepal.Length[iris<span class="op">$</span>Species<span class="op">==</span><span class="st">&quot;setosa&quot;</span>])
+<span class="kw">t.test</span>(iris<span class="op">$</span>Sepal.Length[iris<span class="op">$</span>Species<span class="op">==</span><span class="st">&quot;setosa&quot;</span>], <span class="dt">y =</span> iris<span class="op">$</span>Sepal.Length[iris<span class="op">$</span>Species<span class="op">==</span><span class="st">&quot;virginica&quot;</span>] )</code></pre></div>
+<p>It was originaly made for statictical data analysis and any statistical test you would want to perform with your data you can. But that would be a whole other lecture.</p>
+<p>One great starting resource would be: <a href="https://media.readthedocs.org/pdf/a-little-book-of-r-for-biomedical-statistics/latest/a-little-book-of-r-for-biomedical-statistics.pdf">Little Book of R for Biomedical Statistics</a> which deals with some basic statistic analysis on a mock medical dataset.</p>
+<p>Which brings us to..</p>
+</div>
+<div id="r-packages" class="section level2">
+<h2>R Packages</h2>
+<p>One of the strengths of R is that being an open software, many developers work on it. Since R is commonly used in the scientific community, many state of the art techniques are available in R. Developers provide theses techniques through new functions and commands in so called <strong>packages</strong>. Browse through the list of common packages in the right bottom corner of Rstudio. To load an already installed package, type <strong>library(“package_name”)</strong>. To install a package (if it’s available on CRAN), type <strong>install.packages(“package_name”)</strong> or use the RStudio interface. There are numerous packages available in R. If you have installed a package, you can see all commands of it by <strong>library(help=“package_name”)</strong>. If you have loaded it, then you can access the manual for each command of the package by typing <strong>?command_name</strong>. All CRAN-featured R packages come with additional information and a manual, all of this can be easily accessed through RStudio interface. Otherwise google is your friend to find any package you would need for your analysis.</p>
+<p>Besides CRAN there is also <a href="https://www.bioconductor.org/">Bioconductor</a> that provides multiple packages for analysis of high-throughput genomic data. The packages there however don’t always have a lot of documentation and are often under development. A great resource if you have at least a little idea of what you are trying to achieve.</p>
+<p>A great starting subset of packages to use with R can be found <a href="https://www.rstudio.com/products/rpackages/">here</a> By installing <strong>tidyverse</strong> package you will automatically get all of the others. <strong>ggplot2</strong>, <strong>tidyr</strong>, <strong>dplyr</strong> are especially good for plotting, cleaning and manipulating data.</p>
+<p>A tutorial for <strong>dplyr</strong> to get you started: <a href="http://genomicsclass.github.io/book/pages/dplyr_tutorial.html">dplyr</a></p>
+</div>
+<div id="real-dataset-analysis" class="section level2">
+<h2>Real dataset analysis</h2>
+<p>In the final step we will import a real TB dataset and do some basic analysis on it. We can download the WHO <a href="https://extranet.who.int/tme/generateCSV.asp?ds=estimates">TB burden estimate table</a> using the import dataset command of the RStudio.</p>
+<p>For this tutorial we have already prepared that dataset but it is good to know that RStudio provides a really flexible way of reading in data both from the PC and from online resources. Not to mention various packages designed specifically for data importing.</p>
+<p>The who data set contains cases of tuberculosis (TB) reported between 200 and 2016 sorted by country, age, and gender. The data provides a wealth of epidemiological information, but it would be difficult to work with the data as it is. It contains redundant columns, odd variable codes, and many missing values. In short, it is messy.</p>
+<p>Most important thing to do when you start analyzing real data is to <strong>tidy</strong> it first. Basically you want to transform the dataset to fit your subsequent analysis.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyr)
+<span class="kw">library</span>(dplyr)
+
+<span class="kw">head</span>(<span class="kw">select</span>(TB_data, <span class="kw">starts_with</span>(<span class="st">&quot;iso&quot;</span>)))
+
+by_country &lt;-<span class="st"> </span><span class="kw">group_by</span>(TB_data, country)
+
+incidence &lt;-<span class="st"> </span><span class="kw">summarise</span>(by_country,
+  <span class="dt">cases =</span> <span class="kw">mean</span>(c_newinc, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),
+  <span class="dt">hiv_cases =</span> <span class="kw">mean</span>(hivtest_pos, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))
+
+incidence &lt;-<span class="st"> </span><span class="kw">filter</span>(incidence, cases <span class="op">&gt;</span><span class="dv">20</span>, cases <span class="op">&lt;</span><span class="st"> </span><span class="dv">300000</span>)</code></pre></div>
+<p>So now we have a bit more usable subset of data. Remeber manipulating datasets to obatin the variables needed for your analysis lies at the heart of what R is and nothing but practise, practise and some more practise will make you bettter at it.</p>
+<p>So to end lets just plot this data.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
+<span class="kw">ggplot</span>(incidence, <span class="kw">aes</span>(cases, hiv_cases)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">size =</span> cases), <span class="dt">alpha =</span> <span class="dv">1</span><span class="op">/</span><span class="dv">2</span>) <span class="op">+</span>
+<span class="st">  </span><span class="co">#geom_text(aes(label=country),hjust=0, vjust=0)+</span>
+<span class="st">  </span><span class="kw">geom_smooth</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_size_area</span>()</code></pre></div>
+<p>And show just a first glimpse od R’s potential in data visualisation.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
+<span class="kw">library</span>(maps)
+<span class="kw">library</span>(viridis)
+
+world &lt;-<span class="st"> </span><span class="kw">map_data</span>(<span class="st">&quot;world&quot;</span>)
+by_geo &lt;-<span class="st"> </span><span class="kw">group_by</span>(world, region)
+location &lt;-<span class="st"> </span><span class="kw">summarise</span>(by_geo,
+  <span class="dt">lat =</span> <span class="kw">mean</span>(lat, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),
+  <span class="dt">long =</span> <span class="kw">mean</span>(long, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))
+location &lt;-<span class="st"> </span><span class="kw">rename</span>( location, <span class="dt">country =</span> region )
+
+tb_location &lt;-<span class="st"> </span><span class="kw">inner_join</span>(incidence, location, <span class="dt">by=</span><span class="st">&quot;country&quot;</span>)
+
+mybreaks=<span class="kw">c</span>(<span class="dv">100</span>, <span class="dv">500</span>, <span class="dv">2000</span>, <span class="dv">5000</span>, <span class="dv">10000</span>, <span class="dv">50000</span>, <span class="dv">100000</span>)
+<span class="kw">ggplot</span>() <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_polygon</span>(<span class="dt">data =</span> world, <span class="kw">aes</span>(<span class="dt">x=</span>long, <span class="dt">y =</span> lat, <span class="dt">group =</span> group), <span class="dt">fill=</span><span class="st">&quot;grey&quot;</span>, <span class="dt">alpha=</span><span class="fl">0.3</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_point</span>( <span class="dt">data =</span> tb_location, <span class="kw">aes</span>(<span class="dt">x=</span>long, <span class="dt">y=</span>lat, <span class="dt">size =</span> cases, <span class="dt">color=</span>cases, <span class="dt">alpha=</span> cases ), <span class="dt">shape=</span><span class="dv">20</span>, <span class="dt">stroke=</span><span class="ot">FALSE</span>,<span class="dt">na.rm =</span> T) <span class="op">+</span>
+<span class="st">    </span><span class="kw">scale_size_continuous</span>(<span class="dt">name=</span><span class="st">&quot;Nr. of cases&quot;</span>, <span class="dt">range=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">12</span>), <span class="dt">breaks=</span>mybreaks)  <span class="op">+</span>
+<span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;Average yearly TB incidence per country 1995-2013&quot;</span>) </code></pre></div>
+<p>THank you for your attention! :)</p>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

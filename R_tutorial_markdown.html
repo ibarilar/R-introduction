@@ -12,7 +12,7 @@
 
 <meta name="author" content="Ivan Barilar" />
 
-<meta name="date" content="2018-03-13" />
+<meta name="date" content="2018-03-14" />
 
 <title>Introduction to R</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Introduction to R</h1>
 <h4 class="author"><em>Ivan Barilar</em></h4>
-<h4 class="date"><em>2018-03-13</em></h4>
+<h4 class="date"><em>2018-03-14</em></h4>
 
 
 
@@ -481,9 +481,9 @@ reg
 </div>
 <div id="real-dataset-analysis" class="section level2">
 <h2>Real dataset analysis</h2>
-<p>In the final step we will import a real TB dataset and do some basic analysis on it. We can download the WHO <a href="https://extranet.who.int/tme/generateCSV.asp?ds=estimates">TB burden estimate table</a> using the import dataset command of the RStudio.</p>
+<p>In the final step we will import a real TB dataset and do some basic analysis on it. We can download the WHO <a href="https://extranet.who.int/tme/generateCSV.asp?ds=notifications">TB case notifications</a> using the import dataset command of the RStudio.</p>
 <p>For this tutorial we have already prepared that dataset but it is good to know that RStudio provides a really flexible way of reading in data both from the PC and from online resources. Not to mention various packages designed specifically for data importing.</p>
-<p>The who data set contains cases of tuberculosis (TB) reported between 200 and 2016 sorted by country, age, and gender. The data provides a wealth of epidemiological information, but it would be difficult to work with the data as it is. It contains redundant columns, odd variable codes, and many missing values. In short, it is messy.</p>
+<p>The who data set contains cases of tuberculosis (TB) reported between 1980 and 2016 sorted by country, age, gender and many other variables. The data provides a wealth of epidemiological information, but it would be difficult to work with the data as it is. It contains redundant columns, odd variable codes, and many missing values. In short, it is messy.</p>
 <p>Most important thing to do when you start analyzing real data is to <strong>tidy</strong> it first. Basically you want to transform the dataset to fit your subsequent analysis.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyr)
 <span class="kw">library</span>(dplyr)
@@ -504,7 +504,9 @@ incidence &lt;-<span class="st"> </span><span class="kw">filter</span>(incidence
 <span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">size =</span> cases), <span class="dt">alpha =</span> <span class="dv">1</span><span class="op">/</span><span class="dv">2</span>) <span class="op">+</span>
 <span class="st">  </span><span class="co">#geom_text(aes(label=country),hjust=0, vjust=0)+</span>
 <span class="st">  </span><span class="kw">geom_smooth</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">scale_size_area</span>()</code></pre></div>
+<span class="st">  </span><span class="kw">scale_size_area</span>()
+
+<span class="kw">cor</span>(incidence<span class="op">$</span>cases,incidence<span class="op">$</span>hiv_cases,<span class="dt">use =</span> <span class="st">&quot;complete.obs&quot;</span>)</code></pre></div>
 <p>And show just a first glimpse od R’s potential in data visualisation.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
 <span class="kw">library</span>(maps)
